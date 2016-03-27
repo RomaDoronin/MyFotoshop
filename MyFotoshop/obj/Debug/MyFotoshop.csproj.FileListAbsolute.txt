@@ -1,0 +1,18 @@
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\bin\Debug\MyFotoshop.exe.config
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\bin\Debug\MyFotoshop.exe
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\bin\Debug\MyFotoshop.pdb
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.csprojResolveAssemblyReference.cache
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.Form1.resources
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.Properties.Resources.resources
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.csproj.GenerateResource.Cache
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.exe
+c:\documents\visual studio 2013\Projects\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.pdb
+D:\MyFotoshop\MyFotoshop\bin\Debug\MyFotoshop.exe.config
+D:\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.exe
+D:\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.pdb
+D:\MyFotoshop\MyFotoshop\bin\Debug\MyFotoshop.exe
+D:\MyFotoshop\MyFotoshop\bin\Debug\MyFotoshop.pdb
+D:\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.csprojResolveAssemblyReference.cache
+D:\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.Form1.resources
+D:\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.Properties.Resources.resources
+D:\MyFotoshop\MyFotoshop\obj\Debug\MyFotoshop.csproj.GenerateResource.Cache
