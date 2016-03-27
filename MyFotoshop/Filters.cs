@@ -10,6 +10,8 @@ namespace MyFotoshop
 {
     abstract class Filters
     {
+       public Random rand = new Random(/*DateTime.Now.Millisecond*/);
+
         protected abstract Color calculateNewPixelColor(Bitmap sourceImage, int x, int y);
 
         public int Clamp(int value, int min, int max)
@@ -179,7 +181,7 @@ namespace MyFotoshop
     {
         public void createResKernel(int radius)
         {
-            int size = 2 * radius + 1;
+            int size = /*2 **/ radius /*+ 1*/;
             kernel = new float[size, size];        
             kernel[0, 0] = -1; kernel[0, 1] = -1; kernel[0, 2] = -1;
             kernel[1, 0] = -1; kernel[1, 1] = 9; kernel[1, 2] = -1;
@@ -232,28 +234,15 @@ namespace MyFotoshop
         protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
         {
             Color resultColor;
+        
+            double tmp1, tmp2;
 
-
-
-            Random rnd1 = new Random(DateTime.Now.Millisecond);
-            Random rnd2 = new Random(DateTime.Now.Millisecond);
-
-            int tmp1, tmp2;
-
-            if ((rnd1.Next(3) % 2) == 0) 
-                tmp1 = 0; 
-            else 
-                tmp1 = 1;
-
-            if ((rnd2.Next(3) % 2) == 0)
-                tmp2 = 1;
-            else
-                tmp2 = 0;
+            tmp1 = rand.NextDouble();
+            tmp2 = rand.NextDouble();
 
             if ((x < (sourceImage.Width - 5)) && (x > 5) && (y < (sourceImage.Height - 5)) && (y > 5))
             {
                 resultColor = sourceImage.GetPixel((int)(x + (tmp1 - 0.5) * 10), (int)(y + (tmp2 - 0.5) * 10));
-
             }
             else 
             {
@@ -270,19 +259,20 @@ namespace MyFotoshop
         {
             Color resultColor;
 
-            int x0 = sourceImage.Width / 2;
-            int y0 = sourceImage.Height / 2;
+            int x0 = (sourceImage.Width-1) / 2;
+            int y0 = (sourceImage.Height-1) / 2;
 
             // Mu - угол поворота
-            double Mu = 45;
+            double Mu = Math.PI/4;
 
-            int tmp1 = ((x - x0) * (int)Math.Cos(Mu) - (y - y0) * (int)Math.Sin(Mu) + x0);
-            int tmp2 = ((x - x0) * (int)Math.Sin(Mu) - (y - y0) * (int)Math.Cos(Mu) + y0);
+            int tmp1 = (int)((x - x0) * Math.Cos(Mu) - (y - y0) * Math.Sin(Mu) + x0);
+            int tmp2 = (int)((x - x0) * Math.Sin(Mu) + (y - y0) * Math.Cos(Mu) + y0);
 
-            if ((tmp1 <= 0) || (tmp2 <= 0) || (tmp1 > sourceImage.Width) || (tmp2 > sourceImage.Height))
-                resultColor = Color.FromArgb(0, 0, 0);
+            if ((tmp1 > 0) && (tmp2 > 0) && (tmp1 <= sourceImage.Width-1) && (tmp2 <= sourceImage.Height-1))
+                resultColor = sourceImage.GetPixel(tmp1, tmp2);                
             else
-                resultColor = sourceImage.GetPixel(tmp1, tmp2);
+                resultColor = Color.FromArgb(0, 0, 0);
+                
 
             return resultColor;
         }
@@ -294,15 +284,16 @@ namespace MyFotoshop
         {
             Color resultColor;
 
-            double Mu = 2 * 3.14 * y / 60;
+            double Mu = 2 * Math.PI * y / 60;
 
-            int tmp1 = x + 20 * (int)Math.Sin(Mu);
+            int tmp1 = (int)(x + 20 * Math.Sin(Mu));
             int tmp2 = y;
 
-            if ((tmp1 <= 0) || (tmp2 <= 0) || (tmp1 > sourceImage.Width) || (tmp2 > sourceImage.Height))
-                resultColor = Color.FromArgb(0, 0, 0);
+            if ((tmp1 > 0) && (tmp2 > 0) && (tmp1 <= sourceImage.Width - 1) && (tmp2 <= sourceImage.Height - 1))
+               resultColor = sourceImage.GetPixel(tmp1, tmp2);                
             else
-                resultColor = sourceImage.GetPixel(tmp1, tmp2);
+                resultColor = Color.FromArgb(0, 0, 0);
+                
 
             return resultColor;
         }

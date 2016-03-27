@@ -12,7 +12,7 @@ namespace MyFotoshop
 {
     public partial class Form1 : Form
     {
-        Bitmap image;
+        Bitmap image, image1;
         public Form1()
         {
             InitializeComponent();
@@ -32,6 +32,7 @@ namespace MyFotoshop
                 image = new Bitmap(dialog.FileName);
             }
             pictureBox1.Image = image;
+            image1 = image;
             pictureBox1.Refresh();
         }
 
@@ -142,6 +143,13 @@ namespace MyFotoshop
         {
             Filters filter1 = new Wave1Fiter();
             backgroundWorker1.RunWorkerAsync(filter1); 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            image = image1;
+            pictureBox1.Image = image1;
+            pictureBox1.Refresh();
         }
     }
 }

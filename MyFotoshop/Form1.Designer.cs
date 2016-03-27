@@ -46,12 +46,13 @@
             this.особыеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.эффектСтеклаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.переносВлевоToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.поворотToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.волныToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.button1 = new System.Windows.Forms.Button();
-            this.поворотToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.волныToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button2 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -101,7 +102,7 @@
             this.секпияToolStripMenuItem,
             this.яркостьToolStripMenuItem});
             this.точечьныеToolStripMenuItem.Name = "точечьныеToolStripMenuItem";
-            this.точечьныеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.точечьныеToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.точечьныеToolStripMenuItem.Text = "Точечные";
             this.точечьныеToolStripMenuItem.Click += new System.EventHandler(this.точечьныеToolStripMenuItem_Click);
             // 
@@ -142,7 +143,7 @@
             this.теснениеToolStripMenuItem,
             this.собеляToolStripMenuItem});
             this.матричныеToolStripMenuItem.Name = "матричныеToolStripMenuItem";
-            this.матричныеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.матричныеToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.матричныеToolStripMenuItem.Text = "Матричные";
             // 
             // размытиеToolStripMenuItem
@@ -188,7 +189,7 @@
             this.поворотToolStripMenuItem,
             this.волныToolStripMenuItem});
             this.особыеToolStripMenuItem.Name = "особыеToolStripMenuItem";
-            this.особыеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.особыеToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.особыеToolStripMenuItem.Text = "Особые";
             // 
             // эффектСтеклаToolStripMenuItem
@@ -204,6 +205,20 @@
             this.переносВлевоToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
             this.переносВлевоToolStripMenuItem.Text = "Перенос влево";
             this.переносВлевоToolStripMenuItem.Click += new System.EventHandler(this.переносВлевоToolStripMenuItem_Click);
+            // 
+            // поворотToolStripMenuItem
+            // 
+            this.поворотToolStripMenuItem.Name = "поворотToolStripMenuItem";
+            this.поворотToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.поворотToolStripMenuItem.Text = "Поворот";
+            this.поворотToolStripMenuItem.Click += new System.EventHandler(this.поворотToolStripMenuItem_Click);
+            // 
+            // волныToolStripMenuItem
+            // 
+            this.волныToolStripMenuItem.Name = "волныToolStripMenuItem";
+            this.волныToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
+            this.волныToolStripMenuItem.Text = "Волны \"1\"";
+            this.волныToolStripMenuItem.Click += new System.EventHandler(this.волныToolStripMenuItem_Click);
             // 
             // pictureBox1
             // 
@@ -226,12 +241,12 @@
             // 
             this.progressBar1.Location = new System.Drawing.Point(12, 476);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(591, 23);
+            this.progressBar1.Size = new System.Drawing.Size(523, 23);
             this.progressBar1.TabIndex = 2;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(623, 476);
+            this.button1.Location = new System.Drawing.Point(541, 476);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -239,25 +254,22 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // поворотToolStripMenuItem
+            // button2
             // 
-            this.поворотToolStripMenuItem.Name = "поворотToolStripMenuItem";
-            this.поворотToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.поворотToolStripMenuItem.Text = "Поворот";
-            this.поворотToolStripMenuItem.Click += new System.EventHandler(this.поворотToolStripMenuItem_Click);
-            // 
-            // волныToolStripMenuItem
-            // 
-            this.волныToolStripMenuItem.Name = "волныToolStripMenuItem";
-            this.волныToolStripMenuItem.Size = new System.Drawing.Size(167, 22);
-            this.волныToolStripMenuItem.Text = "Волны \"1\"";
-            this.волныToolStripMenuItem.Click += new System.EventHandler(this.волныToolStripMenuItem_Click);
+            this.button2.Location = new System.Drawing.Point(622, 476);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 4;
+            this.button2.Text = "Откатить";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(709, 511);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.pictureBox1);
@@ -299,6 +311,7 @@
         private System.Windows.Forms.ToolStripMenuItem переносВлевоToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem поворотToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem волныToolStripMenuItem;
+        private System.Windows.Forms.Button button2;
     }
 }
 
