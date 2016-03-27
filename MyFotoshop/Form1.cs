@@ -151,5 +151,11 @@ namespace MyFotoshop
             pictureBox1.Image = image1;
             pictureBox1.Refresh();
         }
+
+        private void серыйМирToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Filters filter1 = new GrayWorld();
+            backgroundWorker1.RunWorkerAsync(filter1); 
+        }
     }
 }

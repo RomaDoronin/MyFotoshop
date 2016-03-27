@@ -298,4 +298,69 @@ namespace MyFotoshop
             return resultColor;
         }
     }
+
+    //---------------
+    //Класс Серый Мир
+    class GrayWorld : Filters
+    {
+        byte Rsr = 0, Gsr = 0, Bsr = 0; //Переменные для хранения средних зачений
+        int count = 0; //Счетчик пикселей
+        protected void calculateSrRGB(Bitmap sourceImage)
+        {
+            Color sourceColor;
+
+            Rsr = 0; Gsr = 0; Bsr = 0;
+
+            for (int x = 0; x < sourceImage.Width; x++)
+                for (int y = 0; y < sourceImage.Height; y++)
+                {
+                    sourceColor = sourceImage.GetPixel(x, y);
+                    Rsr += sourceColor.R;
+                    Gsr += sourceColor.G;
+                    Bsr += sourceColor.B;
+                }
+        }
+
+        protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
+        {
+            Color sourceColor = sourceImage.GetPixel(x, y);
+            count = sourceImage.Height * sourceImage.Width;
+
+            calculateSrRGB(sourceImage);
+
+            int Avg = (Rsr / count + Gsr / count + Bsr / count) / 3;
+
+            Color resultColor = Color.FromArgb(sourceColor.R * Avg / Rsr,
+                sourceColor.B * Avg / Gsr,
+                sourceColor.B * Avg / Bsr);
+
+            return resultColor;
+        }
+
+    }
+
+    class EliminationOfNoise : Filters
+    {
+        void Dilation(byte* src[ ], bool* mask[ ], BIT* dst[ ])
+        {
+	        // W, H – размеры исходного и результирующего изображений
+	        // MW, MH – размеры структурного множества
+	        for(y = MH/2; y < H – MH/2; y++)
+	        {
+		        for(x = MW/2; x < W – MW/2; x++)
+		        {
+			        BIT max = 0;
+			        for(j = -MH/2; j <= MH/2; j++)
+			        {
+				        for(i = -MW/2; i <= MW/2; i++)
+					        if((mask[i][j]) && (src[x + i][y + j] > max))
+					        {
+						        max = src[x + i][y + j];
+					        }
+			        }
+			        dst[x][y] = max;
+		        }
+	        }
+        }
+    }
 }
