@@ -154,7 +154,13 @@ namespace MyFotoshop
 
         private void серыйМирToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Filters filter1 = new GrayWorld();
+            Filters filter1 = new GrayWorld(image);
+            backgroundWorker1.RunWorkerAsync(filter1); 
+        }
+
+        private void расширениеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Filters filter1 = new Dilation();
             backgroundWorker1.RunWorkerAsync(filter1); 
         }
     }

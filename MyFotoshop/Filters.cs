@@ -303,64 +303,108 @@ namespace MyFotoshop
     //Класс Серый Мир
     class GrayWorld : Filters
     {
-        byte Rsr = 0, Gsr = 0, Bsr = 0; //Переменные для хранения средних зачений
-        int count = 0; //Счетчик пикселей
-        protected void calculateSrRGB(Bitmap sourceImage)
+        private int Rsr = 0, Gsr = 0, Bsr = 0; //Переменные для хранения средних зачений
+        private int size = 0;
+        private float Avg = 0;
+
+        public GrayWorld(Bitmap sourceImage)
         {
             Color sourceColor;
+            size = (sourceImage.Height - 1) * (sourceImage.Width - 1);
 
-            Rsr = 0; Gsr = 0; Bsr = 0;
-
-            for (int x = 0; x < sourceImage.Width; x++)
-                for (int y = 0; y < sourceImage.Height; y++)
+            for (int i = 0; i < sourceImage.Width; i++)
+                for (int j = 0; j < sourceImage.Height; j++)
                 {
-                    sourceColor = sourceImage.GetPixel(x, y);
+                    sourceColor = sourceImage.GetPixel(i, j);
                     Rsr += sourceColor.R;
                     Gsr += sourceColor.G;
                     Bsr += sourceColor.B;
                 }
+            Avg = (float)((Rsr + Gsr + Bsr) / (3 * size));
         }
 
         protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
         {
             Color sourceColor = sourceImage.GetPixel(x, y);
-            count = sourceImage.Height * sourceImage.Width;
 
-            calculateSrRGB(sourceImage);
+            int k = Clamp((int)(sourceColor.R * Avg * size / Rsr), 0, 255);
+            int l = Clamp((int)(sourceColor.G * Avg * size / Gsr), 0, 255);
+            int m = Clamp((int)(sourceColor.B * Avg * size / Bsr), 0, 255);
 
-            int Avg = (Rsr / count + Gsr / count + Bsr / count) / 3;
+            Color resultColor = Color.FromArgb(k, l, m);
 
-            Color resultColor = Color.FromArgb(sourceColor.R * Avg / Rsr,
-                sourceColor.B * Avg / Gsr,
-                sourceColor.B * Avg / Bsr);
-
-            return resultColor;
+            return resultColor; 
         }
 
     }
 
-    class EliminationOfNoise : Filters
+    class Dilation : Filters
     {
-        void Dilation(byte* src[ ], bool* mask[ ], BIT* dst[ ])
+        public int[,] kernel;
+        public Dilation()
         {
-	        // W, H – размеры исходного и результирующего изображений
-	        // MW, MH – размеры структурного множества
-	        for(y = MH/2; y < H – MH/2; y++)
-	        {
-		        for(x = MW/2; x < W – MW/2; x++)
-		        {
-			        BIT max = 0;
-			        for(j = -MH/2; j <= MH/2; j++)
-			        {
-				        for(i = -MW/2; i <= MW/2; i++)
-					        if((mask[i][j]) && (src[x + i][y + j] > max))
-					        {
-						        max = src[x + i][y + j];
-					        }
-			        }
-			        dst[x][y] = max;
-		        }
-	        }
+            int sizeM = 3;
+            int[,] kernel = new int[sizeM, sizeM];
+
+            this.kernel = kernel;
+
+            kernel[0, 0] = 0; kernel[0, 1] = 1; kernel[0, 2] = 0;
+            kernel[1, 0] = 1; kernel[1, 1] = 1; kernel[1, 2] = 1;
+            kernel[2, 0] = 0; kernel[2, 1] = 1; kernel[2, 2] = 0;
+        }
+
+        protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
+        {
+            int radiusX = kernel.GetLength(0) / 2;
+            int radiusY = kernel.GetLength(1) / 2;
+
+            Color maxColor = Color.Black;
+
+            for (int l = -radiusY; l <= radiusY; l++)
+                for (int k = -radiusX; k <= radiusX; k++)
+                {
+                    int idX = Clamp(x + k, 0, sourceImage.Width - 1);
+                    int idY = Clamp(y + l, 0, sourceImage.Height - 1);
+                    Color neighborColor = sourceImage.GetPixel(idX, idY);
+                    if ((neighborColor.R ) > maxColor.R)
+                        maxColor = neighborColor;
+                }
+            return resultColor;
+        }
+    }
+
+    class Erosion : Filters
+    {
+        public int[,] kernel;
+        public Erosion()
+        {
+            int sizeM = 3;
+            int[,] kernel = new int[sizeM, sizeM];
+
+            this.kernel = kernel;
+
+            kernel[0, 0] = 1; kernel[0, 1] = 1; kernel[0, 2] = 1;
+            kernel[1, 0] = 1; kernel[1, 1] = 1; kernel[1, 2] = 1;
+            kernel[2, 0] = 1; kernel[2, 1] = 1; kernel[2, 2] = 1;
+        }
+
+        protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
+        {
+            int radiusX = kernel.GetLength(0) / 2;
+            int radiusY = kernel.GetLength(1) / 2;
+
+            Color resultColor = Color.White;
+
+            for (int l = -radiusY; l <= radiusY; l++)
+                for (int k = -radiusX; k <= radiusX; k++)
+                {
+                    int idX = Clamp(x + k, 0, sourceImage.Width - 1);
+                    int idY = Clamp(y + l, 0, sourceImage.Height - 1);
+                    Color neighborColor = sourceImage.GetPixel(idX, idY);
+                    if ((neighborColor.R) < resultColor.R)
+                        resultColor = neighborColor;
+                }
+            return resultColor;
         }
     }
 }
