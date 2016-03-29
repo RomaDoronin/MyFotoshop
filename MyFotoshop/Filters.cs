@@ -340,17 +340,17 @@ namespace MyFotoshop
 
     class Dilation : Filters
     {
-        public int[,] kernel;
+        public bool[,] kernel;
         public Dilation()
         {
             int sizeM = 3;
-            int[,] kernel = new int[sizeM, sizeM];
+            bool[,] kernel = new bool[sizeM, sizeM];
 
             this.kernel = kernel;
 
-            kernel[0, 0] = 0; kernel[0, 1] = 1; kernel[0, 2] = 0;
-            kernel[1, 0] = 1; kernel[1, 1] = 1; kernel[1, 2] = 1;
-            kernel[2, 0] = 0; kernel[2, 1] = 1; kernel[2, 2] = 0;
+            kernel[0, 0] = false; kernel[0, 1] = true; kernel[0, 2] = false;
+            kernel[1, 0] = true; kernel[1, 1] = true; kernel[1, 2] = true;
+            kernel[2, 0] = false; kernel[2, 1] = true; kernel[2, 2] = false;
         }
 
         protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
@@ -358,6 +358,7 @@ namespace MyFotoshop
             int radiusX = kernel.GetLength(0) / 2;
             int radiusY = kernel.GetLength(1) / 2;
 
+            Color resultColor;
             Color maxColor = Color.Black;
 
             for (int l = -radiusY; l <= radiusY; l++)
@@ -365,27 +366,30 @@ namespace MyFotoshop
                 {
                     int idX = Clamp(x + k, 0, sourceImage.Width - 1);
                     int idY = Clamp(y + l, 0, sourceImage.Height - 1);
-                    Color neighborColor = sourceImage.GetPixel(idX, idY);
-                    if ((neighborColor.R ) > maxColor.R)
+                    Color neighborColor = sourceImage.GetPixel(idX, idY); 
+                    if ((kernel[k+1,l+1]) && (neighborColor.R > maxColor.R))
+                    {
                         maxColor = neighborColor;
+                    }
                 }
+            resultColor = maxColor;
             return resultColor;
         }
     }
 
     class Erosion : Filters
     {
-        public int[,] kernel;
+        public bool[,] kernel;
         public Erosion()
         {
             int sizeM = 3;
-            int[,] kernel = new int[sizeM, sizeM];
+            bool[,] kernel = new bool[sizeM, sizeM];
 
             this.kernel = kernel;
 
-            kernel[0, 0] = 1; kernel[0, 1] = 1; kernel[0, 2] = 1;
-            kernel[1, 0] = 1; kernel[1, 1] = 1; kernel[1, 2] = 1;
-            kernel[2, 0] = 1; kernel[2, 1] = 1; kernel[2, 2] = 1;
+            kernel[0, 0] = false; kernel[0, 1] = true; kernel[0, 2] = false;
+            kernel[1, 0] = true; kernel[1, 1] = true; kernel[1, 2] = true;
+            kernel[2, 0] = false; kernel[2, 1] = true; kernel[2, 2] = false;
         }
 
         protected override Color calculateNewPixelColor(Bitmap sourceImage, int x, int y)
@@ -393,7 +397,8 @@ namespace MyFotoshop
             int radiusX = kernel.GetLength(0) / 2;
             int radiusY = kernel.GetLength(1) / 2;
 
-            Color resultColor = Color.White;
+            Color resultColor;
+            Color minColor = Color.White;
 
             for (int l = -radiusY; l <= radiusY; l++)
                 for (int k = -radiusX; k <= radiusX; k++)
@@ -401,9 +406,12 @@ namespace MyFotoshop
                     int idX = Clamp(x + k, 0, sourceImage.Width - 1);
                     int idY = Clamp(y + l, 0, sourceImage.Height - 1);
                     Color neighborColor = sourceImage.GetPixel(idX, idY);
-                    if ((neighborColor.R) < resultColor.R)
-                        resultColor = neighborColor;
+                    if ((kernel[k + 1, l + 1]) && (neighborColor.R < minColor.R))
+                    {
+                        minColor = neighborColor;
+                    }
                 }
+            resultColor = minColor;
             return resultColor;
         }
     }

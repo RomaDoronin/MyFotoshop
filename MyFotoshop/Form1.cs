@@ -163,5 +163,11 @@ namespace MyFotoshop
             Filters filter1 = new Dilation();
             backgroundWorker1.RunWorkerAsync(filter1); 
         }
+
+        private void сужениеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Filters filter1 = new Erosion();
+            backgroundWorker1.RunWorkerAsync(filter1); 
+        }
     }
 }
